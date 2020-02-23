@@ -1,4 +1,4 @@
-# Stock-Volume-Benford-s-Law
+# Stock Volume Benford's Law
 
 ## Executive Summary
 
