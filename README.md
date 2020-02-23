@@ -1,9 +1,9 @@
 # Stock-Volume-Benford-s-Law
 
-# Executive Summary
+## Executive Summary
 
-# Introduction
+## Introduction
 
-# Results & Discussion
+## Results & Discussion
 
-# Conclusion
+## Conclusion
