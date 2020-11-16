@@ -6,7 +6,7 @@ Analyzing, determining, and predicting the volatility of the stock market is ext
 ## Introduction
 #### Benford's Law
 Benford's law is based on the frequency of the leading digit of a naturally occurring numeric data, where 1 is the most frequent followed sequentially until 9. A graphical example of this trend is shown below, and is applied to the following charts as reference.
-![benford's law]("benfords-law/Images/benfords_law.png")
+![benford's law](https://github.com/stfrey/benfords-law/blob/master/Images/benfords_law.png)
 
 This law can be applied to a wide range of numerical data, such as the areas of rivers and molecular weights of a group of molecules outlined in Benford's paper (F. Benford, The law of anomalous numbers, Proc. Amer. Philos. Soc. 78 (1938), 551-572). It often is used in detecting fruadulent activity, where a large deviation from the expected curve is significant.
 The trend, highlighted above, is the following equation. Where is n is 1 through 9.
@@ -21,7 +21,7 @@ This trend is taken a step further by looking at the second digit, where the pro
 Other forms of Benford's Law are analyzing the first two digits, last two digits, etc. For the purpose of this project I only added the first two digits to the mix; however, other digits can be added quickly for a more robust analysis.
 
 #### Alpha Vantage API
-Gathering the data I used Alpha Vantage API, which would provide the previous 100 days of open, close, and volume data. Following the free tier guidelines, I pulled down `Apple's` daily stock market data for the past twenty years, known as 'TIME_SERIES_DAILY'.
+Gathering the data I used Alpha Vantage API, which would provide the previous 100 days of open, close, and volume data. Following the free tier guidelines, I pulled down `Apple's` daily stock market data for the past twenty years, known as `TIME_SERIES_DAILY`.
 
 #### Data Cleaning
 Because the data-frames had the full open, close, and daily volume values for each day, I applied a lambda function to pull the first, second digits, and first two digits, while also normalizing the value counts to be graphed. Applying this lambda function was not before finding the absolute difference in open and close price each day and removing any leading 0s or decimals.
