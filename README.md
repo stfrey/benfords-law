@@ -21,7 +21,7 @@ This trend is taken a step further by looking at the second digit, where the pro
 Other forms of Benford's Law are analyzing the first two digits, last two digits, etc. For the purpose of this project I only added the first two digits to the mix; however, other digits can be added quickly for a more robust analysis.
 
 #### Alpha Vantage API
-Gathering the data I used Alpha Vantage API, which would provide the previous 100 days of open, close, and volume data. Following the free tier guidelines, I pulled down `Apple's` daily stock market data for the past twenty years, known as TIME_SERIES_DAILY.
+Gathering the data I used Alpha Vantage API, which would provide the previous 100 days of open, close, and volume data. Following the free tier guidelines, I pulled down `Apple's` daily stock market data for the past twenty years, known as 'TIME_SERIES_DAILY'.
 
 #### Data Cleaning
 Because the data-frames had the full open, close, and daily volume values for each day, I applied a lambda function to pull the first, second digits, and first two digits, while also normalizing the value counts to be graphed. Applying this lambda function was not before finding the absolute difference in open and close price each day and removing any leading 0s or decimals.
