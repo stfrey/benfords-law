@@ -6,7 +6,7 @@ Analyzing, determining, and predicting the volatility of the stock market is ext
 ## Introduction
 #### Benford's Law
 Benford's law is based on the frequency of the leading digit of a naturally occurring numeric data, where 1 is the most frequent followed sequentially until 9. A graphical example of this trend is shown below, and is applied to the following charts as reference.
-![benford's law]("./Images/benfords_law.png")
+![benford's law]("./images/benfords_law.png")
 
 This law can be applied to a wide range of numerical data, such as the areas of rivers and molecular weights of a group of molecules outlined in Benford's paper (F. Benford, The law of anomalous numbers, Proc. Amer. Philos. Soc. 78 (1938), 551-572). It often is used in detecting fruadulent activity, where a large deviation from the expected curve is significant.
 The trend, highlighted above, is the following equation. Where is n is 1 through 9.
