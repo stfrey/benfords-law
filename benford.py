@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import requests
 
-class benford(object):
+class stocks(object):
     """
     - name     Name of the company
     - ticker   Ticker of the company
@@ -61,44 +61,43 @@ class benford(object):
 
         # First two digits
         true_values_two = data.loc[data['value'] == True]['first_two_digit_volume'].value_counts(normalize = True).sort_index()
-        false_values_two = data.loc[data['value'] != True]['first__two_digit_volume'].value_counts(normalize = True).sort_index()
+        false_values_two = data.loc[data['value'] != True]['first_two_digit_volume'].value_counts(normalize = True).sort_index()
 
         """
         Creating Beford's Law
         """
         # First digit Benford
         digits_first = list(range(1,10))
-        benford_first = [np.log10(1 + 1/d) for d in digits]
+        benford_first = [np.log10(1 + 1/d) for d in digits_first]
 
         # Second digit Benford
         digits_second = list(range(0,10))
-        beford_second = [np.log10(1 + ((10 + d)**-1)) for d in digits_second]
+        benford_second = [np.log10(1 + ((10 + d)**-1)) for d in digits_second]
 
         # First two digits Beford
         digits_two = list(range(10,100))
         beford_two = [np.log10(1 + 1/d) for d in digits]
 
         # Subplots
-        fig, ax1, ax2, ax3 = plt.subplots(3, 1)
-        fig.title(f"{self.name} Volume");
+        fig, (ax1, ax2, ax3)= plt.subplots(3, 1)
 
         # Subplot 1
         ax1.bar(digits_first, benford_first, label = "Expected")
-        ax1.plot(true_values_first, color='r', label='Positive Day')
-        ax1.plot(false_values_first, color='b', label='Negative Day')
+        ax1.plot(true_values_first, color='black', label='Positive Day')
+        ax1.plot(false_values_first, color='red', label='Negative Day')
         ax1.legend()
 
         # Subplot 2
         ax2.bar(digits_second, benford_second, label = "Expected")
-        ax2.plot(true_values_second, color='r', label='Positive Day')
-        ax2.plot(false_values_second, color='b', label='Negative Day')
+        ax2.plot(true_values_second, color='black', label='Positive Day')
+        ax2.plot(false_values_second, color='red', label='Negative Day')
         ax2.legend()
 
         # Subplot 3
         ax3.bar(digits_two, benford_two, label = "Expected")
         ax3.plot(true_values_two, color='r', label='Positive Day')
         ax3.plot(false_values_two, color='b', label='Negative Day')
-        ax3.legend()
+        ax3.legend();
 
 
     def daily_delta(self):
@@ -180,23 +179,22 @@ class benford(object):
         beford_two = [np.log10(1 + 1/d) for d in digits]
 
         # Subplots
-        fig, ax1, ax2, ax3 = plt.subplots(3, 1)
-        fig.title(f"{self.name} Price Difference");
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
 
         # Subplot 1
         ax1.bar(digits_first, benford_first, label = "Expected")
-        ax1.plot(true_values_first, color='r', label='Positive Day')
-        ax1.plot(false_values_first, color='b', label='Negative Day')
+        ax1.plot(true_values_first, color='black', label='Positive Day')
+        ax1.plot(false_values_first, color='red', label='Negative Day')
         ax1.legend()
 
         # Subplot 2
         ax2.bar(digits_second, benford_second, label = "Expected")
-        ax2.plot(true_values_second, color='r', label='Positive Day')
-        ax2.plot(false_values_second, color='b', label='Negative Day')
+        ax2.plot(true_values_second, color='black', label='Positive Day')
+        ax2.plot(false_values_second, color='red', label='Negative Day')
         ax2.legend()
 
         # Subplot 3
         ax3.bar(digits_two, benford_two, label = "Expected")
-        ax3.plot(true_values_two, color='r', label='Positive Day')
-        ax3.plot(false_values_two, color='b', label='Negative Day')
-        ax3.legend()
+        ax3.plot(true_values_two, color='black', label='Positive Day')
+        ax3.plot(false_values_two, color='red', label='Negative Day')
+        ax3.legend();
