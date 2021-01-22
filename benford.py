@@ -49,7 +49,6 @@ class stocks(object):
         # Collecting the first two digits of volume
         data['first_two_digits_volume'] = data['5. volume'].map(lambda a:str(a)[0:2]).astype(int)
 
-
         # Normalizing digits of volume based on positive and negative days
         # First digit
         true_values_first = data.loc[data['value'] == True]['first_digit_volume'].value_counts(normalize = True).sort_index()
@@ -60,43 +59,42 @@ class stocks(object):
         false_values_second = data.loc[data['value'] != True]['second_digit_volume'].value_counts(normalize = True).sort_index()
 
         # First two digits
-        true_values_two = data.loc[data['value'] == True]['first_two_digit_volume'].value_counts(normalize = True).sort_index()
-        false_values_two = data.loc[data['value'] != True]['first_two_digit_volume'].value_counts(normalize = True).sort_index()
+        true_values_two = data.loc[data['value'] == True]['first_two_digits_volume'].value_counts(normalize = True).sort_index()
+        false_values_two = data.loc[data['value'] != True]['first_two_digits_volume'].value_counts(normalize = True).sort_index()
 
         """
         Creating Beford's Law
         """
-        # First digit Benford
         digits_first = list(range(1,10))
-        benford_first = [np.log10(1 + 1/d) for d in digits_first]
-
-        # Second digit Benford
         digits_second = list(range(0,10))
-        benford_second = [np.log10(1 + ((10 + d)**-1)) for d in digits_second]
-
-        # First two digits Beford
         digits_two = list(range(10,100))
-        beford_two = [np.log10(1 + 1/d) for d in digits]
+
+        benford = [np.log10(1 + 1/d) for d in digits_first]
+        benford_second = [np.log10(1 + ((10 + d)**-1)) for d in digits_second]
+        benford_two = [np.log10(1 + 1/d) for d in digits_two]
 
         # Subplots
-        fig, (ax1, ax2, ax3)= plt.subplots(3, 1)
+        fig, (ax1, ax2, ax3)= plt.subplots(3, 1, figsize = (15,15))
 
         # Subplot 1
-        ax1.bar(digits_first, benford_first, label = "Expected")
-        ax1.plot(true_values_first, color='black', label='Positive Day')
-        ax1.plot(false_values_first, color='red', label='Negative Day')
+        ax1.bar(digits_first, benford, label = "Expected")
+        ax1.plot(true_values_first, color='green', label='Positive Day')
+        ax1.plot(false_values_first, color='pink', label='Negative Day')
+        ax1.set_title("First Digit Benford's Law")
         ax1.legend()
 
         # Subplot 2
         ax2.bar(digits_second, benford_second, label = "Expected")
-        ax2.plot(true_values_second, color='black', label='Positive Day')
-        ax2.plot(false_values_second, color='red', label='Negative Day')
+        ax2.plot(true_values_second, color='green', label='Positive Day')
+        ax2.plot(false_values_second, color='pink', label='Negative Day')
+        ax2.set_title("Second Digit Benford's Law")
         ax2.legend()
 
         # Subplot 3
         ax3.bar(digits_two, benford_two, label = "Expected")
-        ax3.plot(true_values_two, color='r', label='Positive Day')
-        ax3.plot(false_values_two, color='b', label='Negative Day')
+        ax3.plot(true_values_two, color='green', label='Positive Day')
+        ax3.plot(false_values_two, color='pink', label='Negative Day')
+        ax3.set_title("First Two Digits Benford's Law")
         ax3.legend();
 
 
@@ -126,28 +124,30 @@ class stocks(object):
         """
         # Finding the difference in open and close
 
-        data['diff'] = np.abs(data['4. close'].astype(float) - data['1. open'].astype(float)).astype(float)
+        data['diff'] = np.abs(data["diff"])
 
         # Removing the decimal and zeros in the difference in price
-        for i, price in enumerate(data['diff']):
-            string = str(price).replace(".","")
-            if string[:3] == "000":
-                data['diff'][ i] = string.replace(string[:3], "")
+        for i, price in enumerate(data["diff"]):
+            string = str(round(price, 4)).replace(".", "")
+            if int(string) == 0:
+                data["diff"][i] = string + "00"
+            elif string[:3] == "000":
+                data["diff"][i] = string.replace(string[:3], "") + "00"
             elif string[:2] == "00":
-                data['diff'][i] = string.replace(string[:2], "")
+                data["diff"][i] = string.replace(string[:2], "") + "00"
             elif string[0] == "0":
-                data['diff'][i] = string.replace(string[0], "")
+                data["diff"][i] = string.replace(string[0], "") + "00"
             else:
-                data['diff'][i] = string + "00"
+                pass
 
         # Collecting the first digit of the daily price change
-        data['first_digit_diff'] = data['diff'].map(lambda a: str(a)[0]).astype(int)
+        data['first_digit_diff'] = data['diff'].map(lambda a: str(a).replace(".","")[0]).astype(int)
 
         # Collecting the second digit of the daily price change
-        data['second_digit_diff'] = data['diff'].map(lambda a: str(a)[1]).astype(int)
+        data['second_digit_diff'] = data['diff'].map(lambda a: str(a).replace(".","")[1]).astype(int)
 
         # Collecting the first two digits of the daily price change
-        data['first_two_digits_diff'] = data['diff'].map(lambda a: str(a)[0:2]).astype(int)
+        data['first_two_digits_diff'] = data['diff'].map(lambda a: str(a).replace(".","")[0:2]).astype(int)
 
         # Normalizing digits of volume based on positive and negative days
         # First digit
@@ -159,42 +159,40 @@ class stocks(object):
         false_values_second = data.loc[data['value'] != True]['second_digit_diff'].value_counts(normalize = True).sort_index()
 
         # First two digits
-        true_values_two = data.loc[data['value'] == True]['first_two_digit_diff'].value_counts(normalize = True).sort_index()
-        false_values_two = data.loc[data['value'] != True]['first_two_digit_diff'].value_counts(normalize = True).sort_index()
+        true_values_two = data.loc[data['value'] == True]['first_two_digits_diff'].value_counts(normalize = True).sort_index()
+        false_values_two = data.loc[data['value'] != True]['first_two_digits_diff'].value_counts(normalize = True).sort_index()
 
         """
         Creating Beford's Law
         """
-
-        # First digit Benford
         digits_first = list(range(1,10))
-        benford_first = [np.log10(1 + 1/d) for d in digits]
-
-        # Second digit Benford
         digits_second = list(range(0,10))
-        beford_second = [np.log10(1 + ((10 + d)**-1)) for d in digits_second]
-
-        # First two digits Beford
         digits_two = list(range(10,100))
-        beford_two = [np.log10(1 + 1/d) for d in digits]
+
+        benford = [np.log10(1 + 1/d) for d in digits_first]
+        benford_second = [np.log10(1 + ((10 + d)**-1)) for d in digits_second]
+        benford_two = [np.log10(1 + 1/d) for d in digits_two]
 
         # Subplots
-        fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize = (15,15))
 
         # Subplot 1
-        ax1.bar(digits_first, benford_first, label = "Expected")
-        ax1.plot(true_values_first, color='black', label='Positive Day')
-        ax1.plot(false_values_first, color='red', label='Negative Day')
+        ax1.bar(digits_first, benford, label = "Expected")
+        ax1.plot(true_values_first, color='green', label='Positive Day')
+        ax1.plot(false_values_first, color='pink', label='Negative Day')
+        ax1.set_title("First Digit Benford's Law")
         ax1.legend()
 
         # Subplot 2
         ax2.bar(digits_second, benford_second, label = "Expected")
-        ax2.plot(true_values_second, color='black', label='Positive Day')
-        ax2.plot(false_values_second, color='red', label='Negative Day')
+        ax2.plot(true_values_second, color='green', label='Positive Day')
+        ax2.plot(false_values_second, color='pink', label='Negative Day')
+        ax2.set_title("Second Digit Benford's Law")
         ax2.legend()
 
         # Subplot 3
         ax3.bar(digits_two, benford_two, label = "Expected")
-        ax3.plot(true_values_two, color='black', label='Positive Day')
-        ax3.plot(false_values_two, color='red', label='Negative Day')
+        ax3.plot(true_values_two, color='green', label='Positive Day')
+        ax3.plot(false_values_two, color='pink', label='Negative Day')
+        ax3.set_title("First Two Digits Benford's Law")
         ax3.legend();
